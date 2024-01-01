@@ -1,6 +1,25 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const Featured = ({type}) => {
+    const [content, setContent] = useState({});
+
+    useEffect(() => {
+        const getRandomMovie = async() => {
+            try {
+                const res = await axios.get(`http://localhost:3000/api/movie/random?type=${type}`, {
+                    headers: {
+                        authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NThlYTUxYTE5NjhiZDMwZWVlM2MxZjEiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE3MDM4NDcyOTYsImV4cCI6MTcwNDI3OTI5Nn0.Yz3yJlixi41lvZjomRZPq_6ldQMH8msFnV_0-eDRiWM"
+                    }
+                });
+                setContent(res.data);
+                console.log(res.data[0]);
+            } catch(err) {
+                console.log(err);
+            }
+        };
+        getRandomMovie();
+    }, [type])
     return (
         <div className='h-[90vh] relative '>
             {type && (
